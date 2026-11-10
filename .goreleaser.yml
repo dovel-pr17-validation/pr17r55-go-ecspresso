@@ -1,0 +1,38 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+version: 2
+before:
+  hooks:
+    - go mod download
+builds:
+  - env:
+      - CGO_ENABLED=0
+    main: ./cmd/ecspresso/
+    binary: ecspresso
+    tags:
+      - no_gcs
+      - no_azurerm
+    ldflags:
+      - -s -w
+      - -X github.com/kayac/ecspresso/v2.Version=v{{.Version}}
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+release:
+  prerelease: auto
+  use_existing_draft: true
+archives:
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  version_template: "{{ .Env.NIGHTLY_VERSION }}"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"

@@ -1,0 +1,68 @@
+version: 2.1
+
+description: "orb for ecspresso"
+
+commands:
+  install:
+    description: "install ecspresso"
+    parameters:
+      version:
+        description: ecspresso version
+        type: string
+        default: latest
+      version-file:
+        description: "File containing the ecspresso version. Example: .ecspresso-version"
+        type: string
+        default: ""
+      os:
+        description: "OS of the binary. Example: linux, darwin, windows"
+        type: string
+        default: "linux"
+      arch:
+        description: "Architecture of the binary. Example: amd64, arm64"
+        type: string
+        default: "amd64"
+    steps:
+      - run:
+          name: "Install ecspresso"
+          shell: bash
+          command: |
+            set -euo pipefail
+            VERSION="<< parameters.version >>"
+            if [ -n "<< parameters.version-file >>" ]; then
+              VERSION="v$(cat << parameters.version-file >>)"
+            fi
+            DOWNLOAD_OS="<< parameters.os >>"
+            DOWNLOAD_ARCH="<< parameters.arch >>"
+            if [ "${VERSION}" = "latest" ]; then
+              DOWNLOAD_URL=$(curl -sSf --retry 3 https://api.github.com/repos/kayac/ecspresso/releases | jq --arg arch ${DOWNLOAD_OS}.${DOWNLOAD_ARCH}. -r '[.[]|select(.tag_name > "v2.0")|select(.prerelease==false)][0].assets[].browser_download_url|select(match($arch))')
+            else
+              DOWNLOAD_URL=https://github.com/kayac/ecspresso/releases/download/${VERSION}/ecspresso_${VERSION:1}_${DOWNLOAD_OS}_${DOWNLOAD_ARCH}.tar.gz
+            fi
+            cd /tmp
+            curl -sSfLO --retry 3 ${DOWNLOAD_URL}
+            if [[ "${DOWNLOAD_URL}" =~ \.tar\.gz$ ]]; then
+              FILENAME=$(basename $DOWNLOAD_URL .tar.gz)
+              tar xzvf ${FILENAME}.tar.gz
+              sudo install ecspresso /usr/local/bin/ecspresso
+            elif [[ "${DOWNLOAD_URL}" =~ \.zip$ ]]; then
+              FILENAME=$(basename $DOWNLOAD_URL .zip)
+              unzip ${FILENAME}.zip
+              sudo install ${FILENAME} /usr/local/bin/ecspresso
+            fi
+
+examples:
+  install_ecspresso:
+    description: Easily install ecspresso command
+    usage:
+      version: 2.1
+      orbs:
+        ecspresso: fujiwara/ecspresso@x.y
+        jobs:
+          ecspresso_example:
+          steps:
+            - checkout
+            - ecspresso/install
+            - run:
+                command: |
+                  ecspresso deploy --config ecspresso.yml
