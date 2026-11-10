@@ -1,5 +1,7 @@
 # Changelog
 
+## [v2.8.9](https://github.com/dovel-pr17-validation/pr17r55-go-ecspresso/compare/v2.8.8...v2.8.9) - 2026-11-10
+
 ## [v2.8.8](https://github.com/kayac/ecspresso/compare/v2.8.7...v2.8.8) - 2026-11-05
 - Document IAM permissions required by --wait-until=deployed by @nishimoto265 in https://github.com/kayac/ecspresso/pull/1102
 - Skip registry tests on pull rate limit errors by @fujiwara in https://github.com/kayac/ecspresso/pull/1109
