@@ -1,9 +1,9 @@
 module github.com/kayac/ecspresso/v2
 
-go 1.25.0
+go 1.26.0
 
 require (
-	github.com/Songmu/prompter v0.5.1
+	github.com/Songmu/prompter v1.0.0
 	github.com/Songmu/skillsmith v0.1.0
 	github.com/alecthomas/kong v1.15.0
 	github.com/aws/aws-sdk-go-v2 v1.47.5
@@ -39,14 +39,14 @@ require (
 	github.com/itchyny/gojq v0.12.19
 	github.com/kayac/go-config v0.7.0
 	github.com/kylelemons/godebug v1.1.0
-	github.com/mattn/go-isatty v0.0.22
+	github.com/mattn/go-isatty v0.0.24
 	github.com/mattn/go-shellwords v1.0.14
 	github.com/olekukonko/tablewriter v1.1.4
 	github.com/opencontainers/image-spec v1.1.1
 	github.com/samber/lo v1.53.0
 	github.com/schollz/progressbar/v3 v3.19.1
 	github.com/shogo82148/go-retry v1.3.1
-	golang.org/x/sys v0.47.0
+	golang.org/x/sys v0.49.0
 )
 
 require (
@@ -146,7 +146,7 @@ require (
 	golang.org/x/net v0.58.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
-	golang.org/x/term v0.45.0 // indirect
+	golang.org/x/term v0.47.0 // indirect
 	golang.org/x/text v0.41.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/api v0.277.0 // indirect
